@@ -11,9 +11,12 @@ namespace WhisperSpeechRecognition.Services
     {
         private OverlayWindow? _overlay;
         private bool _isRecording;
+        private readonly AudioRecorder _audioRecorder;
 
         public AppHotkeyManager()
         {
+            _audioRecorder = new AudioRecorder();
+
             try
             {
                 NHotkey.Wpf.HotkeyManager.Current.AddOrReplace("ToggleRecording", Key.Space, ModifierKeys.Control | ModifierKeys.Shift, OnToggleRecording);
@@ -53,6 +56,9 @@ namespace WhisperSpeechRecognition.Services
             
             _overlay.SetStatus("🎤 録音中...");
             _overlay.Show();
+
+            // 録音開始
+            _audioRecorder.StartRecording();
         }
 
         private void StopRecordingUI()
@@ -62,9 +68,15 @@ namespace WhisperSpeechRecognition.Services
             if (_overlay != null)
             {
                 _overlay.SetStatus("⏳ 処理中...");
-                // 実際には処理完了後に閉じるが、今回はStep 2のため少ししたら非表示にするか、そのまま閉じる
-                // 今回は即座に隠す
                 _overlay.Hide();
+            }
+
+            // 録音停止してファイルパスを取得
+            string? wavFilePath = _audioRecorder.StopRecording();
+            if (wavFilePath != null)
+            {
+                // ToDo: Step 4でOpenAI APIにこのファイルを渡す
+                Console.WriteLine($"録音完了: {wavFilePath}");
             }
         }
 
@@ -84,6 +96,8 @@ namespace WhisperSpeechRecognition.Services
                 _overlay.Close();
                 _overlay = null;
             }
+
+            _audioRecorder.Dispose();
         }
     }
 }
