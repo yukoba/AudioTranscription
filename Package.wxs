@@ -1,0 +1,35 @@
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package Name="WhisperSpeechRecognition" Manufacturer="YuKobayashi" Version="1.0.0.0" UpgradeCode="7C41BEBD-0763-4844-8F49-BF5995E1D816" Scope="perMachine">
+    <MediaTemplate EmbedCab="yes" />
+
+    <!-- 古いバージョンの自動削除やダウングレード防止設定 -->
+    <MajorUpgrade DowngradeErrorMessage="より新しいバージョンの WhisperSpeechRecognition が既にインストールされています。" />
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="INSTALLFOLDER" Name="WhisperSpeechRecognition" />
+    </StandardDirectory>
+
+    <StandardDirectory Id="ProgramMenuFolder">
+      <Directory Id="ApplicationProgramsFolder" Name="WhisperSpeechRecognition" />
+    </StandardDirectory>
+
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Files Include="publish\**" />
+    </ComponentGroup>
+
+    <Component Id="ApplicationShortcut" Directory="ApplicationProgramsFolder" Guid="*">
+      <Shortcut Id="ApplicationStartMenuShortcut"
+                Name="WhisperSpeechRecognition"
+                Description="Start WhisperSpeechRecognition"
+                Target="[INSTALLFOLDER]WhisperSpeechRecognition.exe"
+                WorkingDirectory="INSTALLFOLDER"/>
+      <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
+      <RegistryValue Root="HKMU" Key="Software\YuKobayashi\WhisperSpeechRecognition" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+    </Component>
+
+    <Feature Id="MainFeature">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcut" />
+    </Feature>
+  </Package>
+</Wix>
