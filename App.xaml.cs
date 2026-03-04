@@ -2,6 +2,7 @@ using H.NotifyIcon;
 using System;
 using System.Threading;
 using System.Windows;
+using WhisperSpeechRecognition.Services;
 
 namespace WhisperSpeechRecognition
 {
@@ -9,6 +10,7 @@ namespace WhisperSpeechRecognition
     {
         private Mutex? _mutex;
         private TaskbarIcon? _trayIcon;
+        private AppHotkeyManager? _hotkeyManager;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -29,11 +31,16 @@ namespace WhisperSpeechRecognition
             if (_trayIcon != null)
             {
                 _trayIcon.DataContext = new TrayIconViewModel();
+                _trayIcon.ForceCreate();
             }
+
+            // ホットキーマネージャーの初期化
+            _hotkeyManager = new AppHotkeyManager();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
+            _hotkeyManager?.Dispose();
             _trayIcon?.Dispose();
             _mutex?.ReleaseMutex();
             base.OnExit(e);
