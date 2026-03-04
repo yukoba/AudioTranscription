@@ -15,10 +15,13 @@ namespace WhisperSpeechRecognition.Services
 
         public OpenAIService()
         {
-            // appsettings.json や環境変数から設定を読み込む
+            string userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            string settingsFilePath = Path.Combine(userProfilePath, "WhisperSpeechRecognition.json");
+
+            // %USERPROFILE%\WhisperSpeechRecognition.json や環境変数から設定を読み込む
             var config = new ConfigurationBuilder()
                 .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .AddJsonFile(settingsFilePath, optional: true, reloadOnChange: true)
                 .AddEnvironmentVariables()
                 .AddUserSecrets<OpenAIService>(optional: true)
                 .Build();
@@ -27,7 +30,7 @@ namespace WhisperSpeechRecognition.Services
 
             if (string.IsNullOrWhiteSpace(_apiKey))
             {
-                throw new InvalidOperationException("OpenAI APIキーが設定されていません。appsettings.json または環境変数を確認してください。");
+                throw new InvalidOperationException("OpenAI APIキーが設定されていません。%USERPROFILE%\\WhisperSpeechRecognition.json または環境変数 OPENAI_API_KEY を確認してください。");
             }
 
             _audioClient = new AudioClient("whisper-1", _apiKey);
