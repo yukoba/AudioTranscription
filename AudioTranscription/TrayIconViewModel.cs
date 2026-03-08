@@ -1,7 +1,7 @@
 using System.Windows;
 using System.Windows.Input;
 
-namespace WhisperSpeechRecognition;
+namespace AudioTranscription;
 
 public class TrayIconViewModel
 {

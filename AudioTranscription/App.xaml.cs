@@ -1,8 +1,9 @@
 using System.Windows;
+using AudioTranscription.Services;
 using H.NotifyIcon;
-using WhisperSpeechRecognition.Services;
+using AudioTranscription;
 
-namespace WhisperSpeechRecognition;
+namespace AudioTranscription;
 
 public partial class App : Application
 {
@@ -15,7 +16,7 @@ public partial class App : Application
         base.OnStartup(e);
 
         // 複数起動の防止
-        const string appName = "WhisperAutoTyperApp";
+        const string appName = "AudioTranscriptionAutoTyperApp";
         _mutex = new Mutex(true, appName, out var createdNew);
         if (!createdNew)
         {

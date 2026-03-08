@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace WhisperSpeechRecognition.Views;
+namespace AudioTranscription.Views;
 
 public partial class OverlayWindow : Window
 {

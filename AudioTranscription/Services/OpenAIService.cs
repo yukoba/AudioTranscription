@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using OpenAI.Audio;
 using OpenAI.Chat;
 
-namespace WhisperSpeechRecognition.Services;
+namespace AudioTranscription.Services;
 
 public class OpenAIService
 {
@@ -14,9 +14,9 @@ public class OpenAIService
     public OpenAIService()
     {
         var userProfilePath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-        var settingsFilePath = Path.Combine(userProfilePath, "WhisperSpeechRecognition.json");
+        var settingsFilePath = Path.Combine(userProfilePath, "AudioTranscription.json");
 
-        // %USERPROFILE%\WhisperSpeechRecognition.json や環境変数から設定を読み込む
+        // %USERPROFILE%\AudioTranscription.json や環境変数から設定を読み込む
         var config = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile(settingsFilePath, true, true)
@@ -28,7 +28,7 @@ public class OpenAIService
 
         if (string.IsNullOrWhiteSpace(_apiKey))
             throw new InvalidOperationException(
-                "OpenAI APIキーが設定されていません。%USERPROFILE%\\WhisperSpeechRecognition.json または環境変数 OPENAI_API_KEY を確認してください。");
+                "OpenAI APIキーが設定されていません。%USERPROFILE%\\AudioTranscription.json または環境変数 OPENAI_API_KEY を確認してください。");
 
         _audioClient = new AudioClient("gpt-4o-transcribe", _apiKey);
         _chatClient = new ChatClient("gpt-5-mini", _apiKey);
@@ -47,7 +47,7 @@ public class OpenAIService
             Language = "ja" // 日本語指定
         };
 
-        AudioTranscription transcription = await _audioClient.TranscribeAudioAsync(filePath, options);
+        OpenAI.Audio.AudioTranscription transcription = await _audioClient.TranscribeAudioAsync(filePath, options);
         return transcription.Text;
     }
 

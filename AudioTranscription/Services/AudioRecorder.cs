@@ -1,7 +1,7 @@
 using System.IO;
 using NAudio.Wave;
 
-namespace WhisperSpeechRecognition.Services;
+namespace AudioTranscription.Services;
 
 public class AudioRecorder : IDisposable
 {
@@ -32,7 +32,7 @@ public class AudioRecorder : IDisposable
         // すでに録音中の場合はリセット
         StopRecording();
 
-        TempFilePath = Path.Combine(Path.GetTempPath(), $"WhisperRecording_{Guid.NewGuid()}.wav");
+        TempFilePath = Path.Combine(Path.GetTempPath(), $"AudioTranscriptionRecording_{Guid.NewGuid()}.wav");
 
         // マイク入力を設定（16kHz, 16bit, モノラル）
         _waveSource = new WaveInEvent

@@ -1,16 +1,16 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Name="Whisper Speech Recognition" Manufacturer="YuKobayashi" Version="1.2.0.2" UpgradeCode="7C41BEBD-0763-4844-8F49-BF5995E1D816" Scope="perMachine">
+  <Package Name="Audio Transcription" Manufacturer="YuKobayashi" Version="1.2.0.2" UpgradeCode="7C41BEBD-0763-4844-8F49-BF5995E1D816" Scope="perMachine">
     <MediaTemplate EmbedCab="yes" />
 
     <!-- 古いバージョンの自動削除やダウングレード防止設定 -->
-    <MajorUpgrade DowngradeErrorMessage="より新しいバージョンの Whisper Speech Recognition が既にインストールされています。" />
+    <MajorUpgrade DowngradeErrorMessage="より新しいバージョンの Audio Transcription が既にインストールされています。" />
 
     <StandardDirectory Id="ProgramFiles64Folder">
-      <Directory Id="INSTALLFOLDER" Name="WhisperSpeechRecognition" />
+      <Directory Id="INSTALLFOLDER" Name="AudioTranscription" />
     </StandardDirectory>
 
     <StandardDirectory Id="ProgramMenuFolder">
-      <Directory Id="ApplicationProgramsFolder" Name="WhisperSpeechRecognition" />
+      <Directory Id="ApplicationProgramsFolder" Name="AudioTranscription" />
     </StandardDirectory>
 
     <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
@@ -19,12 +19,12 @@
 
     <Component Id="ApplicationShortcut" Directory="ApplicationProgramsFolder" Guid="*">
       <Shortcut Id="ApplicationStartMenuShortcut"
-                Name="Whisper Speech Recognition"
-                Description="Start Whisper Speech Recognition"
-                Target="[INSTALLFOLDER]WhisperSpeechRecognition.exe"
+                Name="Audio Transcription"
+                Description="Start Audio Transcription"
+                Target="[INSTALLFOLDER]AudioTranscription.exe"
                 WorkingDirectory="INSTALLFOLDER"/>
       <RemoveFolder Id="CleanUpShortCut" Directory="ApplicationProgramsFolder" On="uninstall"/>
-      <RegistryValue Root="HKMU" Key="Software\YuKobayashi\WhisperSpeechRecognition" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
+      <RegistryValue Root="HKMU" Key="Software\YuKobayashi\AudioTranscription" Name="installed" Type="integer" Value="1" KeyPath="yes"/>
     </Component>
 
     <Feature Id="MainFeature">

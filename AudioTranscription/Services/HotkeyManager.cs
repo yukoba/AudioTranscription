@@ -1,11 +1,11 @@
 using System.Media;
 using System.Windows;
 using System.Windows.Input;
+using AudioTranscription.Views;
 using NHotkey;
 using NHotkey.Wpf;
-using WhisperSpeechRecognition.Views;
 
-namespace WhisperSpeechRecognition.Services;
+namespace AudioTranscription.Services;
 
 public class AppHotkeyManager : IDisposable
 {
