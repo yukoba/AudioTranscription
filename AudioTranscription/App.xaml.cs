@@ -1,7 +1,6 @@
 using System.Windows;
 using AudioTranscription.Services;
 using H.NotifyIcon;
-using AudioTranscription;
 
 namespace AudioTranscription;
 
@@ -35,6 +34,13 @@ public partial class App : Application
 
         // ホットキーマネージャーの初期化
         _hotkeyManager = new AppHotkeyManager();
+
+        // 起動時のWPF内部的な初期化処理が完全に落ち着くのを待ってからメモリを解放する
+        Task.Run(async () =>
+        {
+            await Task.Delay(2000); // 2秒待機
+            MemoryHelper.ReleaseMemory();
+        });
     }
 
     protected override void OnExit(ExitEventArgs e)

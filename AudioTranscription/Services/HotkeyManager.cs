@@ -148,6 +148,9 @@ public class AppHotkeyManager : IDisposable
         finally
         {
             Application.Current.Dispatcher.Invoke(() => { _overlay?.Hide(); });
+
+            // 処理が完了して待機状態に戻る際にメモリを解放
+            MemoryHelper.ReleaseMemory();
         }
     }
 }
