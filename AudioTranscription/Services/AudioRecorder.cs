@@ -52,6 +52,28 @@ public class AudioRecorder : IDisposable
     {
         if (_waveSource != null) _waveSource.StopRecording();
 
+        // Ensure resources are disposed so the file is freed
+        DisposeResources();
+
+        if (TempFilePath != null && File.Exists(TempFilePath) && TempFilePath.EndsWith(".wav"))
+        {
+            var mp3Path = Path.ChangeExtension(TempFilePath, ".mp3");
+            try
+            {
+                using (var reader = new WaveFileReader(TempFilePath))
+                {
+                    MediaFoundationEncoder.EncodeToMp3(reader, mp3Path);
+                }
+
+                File.Delete(TempFilePath);
+                TempFilePath = mp3Path;
+            }
+            catch
+            {
+                // Fallback to wav if encoding fails
+            }
+        }
+
         return TempFilePath;
     }
 

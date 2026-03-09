@@ -35,13 +35,14 @@ public class GeminiService
     }
 
     /// <summary>
-    ///     WAVファイルをGemini APIに送信して文字起こしとフィラー除去を一括で行う
+    ///     音声ファイルをGemini APIに送信して文字起こしとフィラー除去を一括で行う
     /// </summary>
     public async Task<string> ProcessAudioAsync(string filePath)
     {
         if (!File.Exists(filePath)) throw new FileNotFoundException($"音声ファイルが見つかりません: {filePath}");
 
         var audioBytes = await File.ReadAllBytesAsync(filePath);
+        var mimeType = filePath.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase) ? "audio/mp3" : "audio/wav";
 
         var prompt = "音声の内容を文字起こししてください。その際、「えっと」や「あの」などのフィラーはすべて除去し、読みやすい文章に整えてください。整形後のテキストのみを出力し、解説や挨拶は含めないでください。";
 
@@ -50,7 +51,7 @@ public class GeminiService
             Parts = new List<Part>
             {
                 Part.FromText(prompt),
-                new() { InlineData = new Blob { Data = audioBytes, MimeType = "audio/wav" } }
+                new() { InlineData = new Blob { Data = audioBytes, MimeType = mimeType } }
             },
             Role = "user"
         };
