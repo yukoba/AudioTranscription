@@ -10,8 +10,8 @@
     <ServerGarbageCollection>false</ServerGarbageCollection>
     <ConcurrentGarbageCollection>false</ConcurrentGarbageCollection>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
-    <AssemblyVersion>2.3.0.6</AssemblyVersion>
-    <FileVersion>2.3.0.6</FileVersion>
+    <AssemblyVersion>2.4.0.7</AssemblyVersion>
+    <FileVersion>2.4.0.7</FileVersion>
     <Company>Yu Kobayashi</Company>
     <PackageProjectUrl>https://github.com/yukoba/AudioTranscription</PackageProjectUrl>
     <RepositoryUrl>https://github.com/yukoba/AudioTranscription</RepositoryUrl>
