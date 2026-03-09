@@ -1,6 +1,8 @@
 using System.Windows;
 using AudioTranscription.Services;
 using H.NotifyIcon;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 
 namespace AudioTranscription;
 

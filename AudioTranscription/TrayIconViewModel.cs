@@ -1,5 +1,7 @@
 using System.Windows;
 using System.Windows.Input;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 
 namespace AudioTranscription;
 

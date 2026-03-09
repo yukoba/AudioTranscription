@@ -1,9 +1,12 @@
 using System.Media;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using AudioTranscription.Views;
 using NHotkey;
 using NHotkey.Wpf;
+using Application = System.Windows.Application;
+using MessageBox = System.Windows.MessageBox;
 
 namespace AudioTranscription.Services;
 
@@ -127,12 +130,16 @@ public class AppHotkeyManager : IDisposable
                 return;
             }
 
-            // クリップボードへの設定 (STAスレッド制約のためDispatcherを使用)
+            // 直接文字入力を行う (STAスレッド制約のためDispatcherを使用)
             Application.Current.Dispatcher.Invoke(() =>
             {
                 if (!string.IsNullOrEmpty(formattedText))
                 {
-                    Clipboard.SetText(formattedText);
+                    // SendKeysで送信するために特殊文字をエスケープ
+                    var escapedText = Regex.Replace(formattedText, @"[+^%~(){}]", "{$0}")
+                        .Replace("\r\n", "{ENTER}")
+                        .Replace("\n", "{ENTER}");
+                    SendKeys.SendWait(escapedText);
                     // 完了をシステム音で通知
                     SystemSounds.Asterisk.Play();
                 }
