@@ -59,6 +59,7 @@ public class GeminiService
         var config = new GenerateContentConfig
         {
             ThinkingConfig = new ThinkingConfig { ThinkingLevel = ThinkingLevel.Minimal },
+            Temperature = 0.0f, // 出力のランダム性を抑える
             SystemInstruction = new Content
             {
                 Parts = [new Part { Text = prompt }],
