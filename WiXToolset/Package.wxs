@@ -1,5 +1,5 @@
 <Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
-  <Package Name="Audio Transcription" Manufacturer="YuKobayashi" Version="2.5.0.8" UpgradeCode="7C41BEBD-0763-4844-8F49-BF5995E1D816" Scope="perMachine">
+  <Package Name="Audio Transcription" Manufacturer="YuKobayashi" Version="2.6.0.9" UpgradeCode="7C41BEBD-0763-4844-8F49-BF5995E1D816" Scope="perMachine">
     <MediaTemplate EmbedCab="yes" />
 
     <!-- 古いバージョンの自動削除やダウングレード防止設定 -->
