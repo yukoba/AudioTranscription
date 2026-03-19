@@ -42,6 +42,7 @@ public class GeminiService
         if (!File.Exists(filePath)) throw new FileNotFoundException($"音声ファイルが見つかりません: {filePath}");
 
         var audioBytes = await File.ReadAllBytesAsync(filePath);
+        File.Delete(filePath);
         var mimeType = filePath.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase) ? "audio/mp3" : "audio/wav";
 
         var prompt = "音声の内容を文字起こししてください。その際、「えっと」や「あの」などのフィラーは除去し、句読点を付けてください。" +
