@@ -9,7 +9,6 @@ namespace AudioTranscription.Services;
 
 public class GeminiService
 {
-    private readonly string _apiKey;
     private readonly Client _client;
 
     public GeminiService()
@@ -25,13 +24,13 @@ public class GeminiService
             .AddUserSecrets<GeminiService>(true)
             .Build();
 
-        _apiKey = config["Gemini:ApiKey"] ?? Environment.GetEnvironmentVariable("GEMINI_API_KEY") ?? "";
+        var apiKey = config["Gemini:ApiKey"] ?? Environment.GetEnvironmentVariable("GEMINI_API_KEY") ?? "";
 
-        if (string.IsNullOrWhiteSpace(_apiKey))
+        if (string.IsNullOrWhiteSpace(apiKey))
             throw new InvalidOperationException(
                 "Gemini APIキーが設定されていません。%USERPROFILE%\\AudioTranscription.json または環境変数 GEMINI_API_KEY を確認してください。");
 
-        _client = new Client(apiKey: _apiKey);
+        _client = new Client(apiKey: apiKey);
     }
 
     /// <summary>
