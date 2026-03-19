@@ -123,9 +123,9 @@ public class AppHotkeyManager : IDisposable
             Application.Current.Dispatcher.Invoke(() => _overlay?.SetStatus("⏳ 文字起こし中..."));
             var formattedText = await _geminiService.ProcessAudioAsync(wavFilePath);
 
-            if (string.IsNullOrWhiteSpace(formattedText))
+            if (string.IsNullOrWhiteSpace(formattedText) || formattedText == "@@@")
             {
-                Application.Current.Dispatcher.Invoke(() => _overlay?.SetStatus("⚠️ 音声が認識できませんでした"));
+                Application.Current.Dispatcher.Invoke(() => _overlay?.SetStatus("⚠ 音声認識できません"));
                 await Task.Delay(2000);
                 return;
             }
@@ -133,19 +133,13 @@ public class AppHotkeyManager : IDisposable
             // 直接文字入力を行う (STAスレッド制約のためDispatcherを使用)
             Application.Current.Dispatcher.Invoke(() =>
             {
-                if (!string.IsNullOrEmpty(formattedText))
-                {
-                    if (formattedText != "@@@")
-                    {
-                        // SendKeysで送信するために特殊文字をエスケープ
-                        var escapedText = Regex.Replace(formattedText, @"[+^%~(){}]", "{$0}")
-                            .Replace("\r\n", "{ENTER}")
-                            .Replace("\n", "{ENTER}");
-                        SendKeys.SendWait(escapedText);
-                    }
-                    // 完了をシステム音で通知
-                    SystemSounds.Asterisk.Play();
-                }
+                // SendKeysで送信するために特殊文字をエスケープ
+                var escapedText = Regex.Replace(formattedText, @"[+^%~(){}]", "{$0}")
+                    .Replace("\r\n", "{ENTER}")
+                    .Replace("\n", "{ENTER}");
+                SendKeys.SendWait(escapedText);
+                // 完了をシステム音で通知
+                SystemSounds.Asterisk.Play();
             });
         }
         catch (Exception ex)
