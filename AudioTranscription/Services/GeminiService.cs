@@ -44,7 +44,8 @@ public class GeminiService
         var audioBytes = await File.ReadAllBytesAsync(filePath);
         var mimeType = filePath.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase) ? "audio/mp3" : "audio/wav";
 
-        var prompt = "音声の内容を文字起こししてください。その際、「えっと」や「あの」などのフィラーはすべて除去し、読みやすい文章に整えてください。整形後のテキストのみを出力し、解説や挨拶は含めないでください。";
+        var prompt = "音声の内容を文字起こししてください。その際、「えっと」や「あの」などのフィラーは除去し、句読点を付けてください。" +
+            "整形後のテキストのみを出力し、解説や挨拶は含めないでください。音声が無音だった場合は `@@@` と返してください。";
 
         var content = new Content
         {
@@ -62,7 +63,7 @@ public class GeminiService
         };
 
         var response = await _client.Models.GenerateContentAsync(
-            "gemini-3-flash-preview",
+            "gemini-3.1-flash-lite-preview",
             content,
             config
         );

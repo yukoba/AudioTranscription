@@ -135,11 +135,14 @@ public class AppHotkeyManager : IDisposable
             {
                 if (!string.IsNullOrEmpty(formattedText))
                 {
-                    // SendKeysで送信するために特殊文字をエスケープ
-                    var escapedText = Regex.Replace(formattedText, @"[+^%~(){}]", "{$0}")
-                        .Replace("\r\n", "{ENTER}")
-                        .Replace("\n", "{ENTER}");
-                    SendKeys.SendWait(escapedText);
+                    if (formattedText != "@@@")
+                    {
+                        // SendKeysで送信するために特殊文字をエスケープ
+                        var escapedText = Regex.Replace(formattedText, @"[+^%~(){}]", "{$0}")
+                            .Replace("\r\n", "{ENTER}")
+                            .Replace("\n", "{ENTER}");
+                        SendKeys.SendWait(escapedText);
+                    }
                     // 完了をシステム音で通知
                     SystemSounds.Asterisk.Play();
                 }
