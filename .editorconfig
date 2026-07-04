@@ -1,8 +1,12 @@
+root = true
 
 [*]
+end_of_line = lf
+insert_final_newline = true
 
 # ReSharper properties
-resharper_csharp_insert_final_newline = true
 resharper_csharp_max_line_length = 140
-resharper_xml_insert_final_newline = true
 resharper_xml_max_line_length = 140
+
+[*.bat]
+end_of_line = crlf
