@@ -131,7 +131,7 @@ public class AppHotkeyManager : IDisposable
             Application.Current.Dispatcher.Invoke(() => _overlay?.SetStatus("⏳ 文字起こし中..."));
             var formattedText = await _geminiService.ProcessAudioAsync(wavFilePath);
 
-            if (string.IsNullOrWhiteSpace(formattedText) || formattedText == "@@@")
+            if (string.IsNullOrWhiteSpace(formattedText))
             {
                 Application.Current.Dispatcher.Invoke(() => _overlay?.SetStatus("⚠ 音声認識できません"));
                 await Task.Delay(2000);
