@@ -6,7 +6,7 @@ namespace AudioTranscription.Services;
 public class AudioRecorder : IDisposable
 {
     private WaveFileWriter? _waveFile;
-    private WaveInEvent? _waveSource;
+    private WaveIn? _waveSource;
 
     public string? TempFilePath { get; private set; }
 
@@ -35,7 +35,7 @@ public class AudioRecorder : IDisposable
         TempFilePath = Path.Combine(Path.GetTempPath(), $"AudioTranscriptionRecording_{Guid.NewGuid()}.wav");
 
         // マイク入力を設定（16kHz, 16bit, モノラル）
-        _waveSource = new WaveInEvent
+        _waveSource = new WaveIn
         {
             WaveFormat = new WaveFormat(16000, 16, 1)
         };
