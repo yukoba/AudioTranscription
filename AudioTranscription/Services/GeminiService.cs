@@ -30,7 +30,7 @@ public class GeminiService
             throw new InvalidOperationException(
                 "Gemini APIキーが設定されていません。%USERPROFILE%\\AudioTranscription.json または環境変数 GEMINI_API_KEY を確認してください。");
 
-        _client = new Client(apiKey: apiKey);
+        _client = new Client(apiKey: apiKey, httpOptions: new HttpOptions { ApiVersion = "v1beta" });
     }
 
     /// <summary>
@@ -44,11 +44,6 @@ public class GeminiService
         File.Delete(filePath);
         var mimeType = filePath.EndsWith(".mp3", StringComparison.OrdinalIgnoreCase) ? "audio/mp3" : "audio/wav";
 
-        var prompt = "あなたは文字起こしアシスタントです。音声の内容を文字起こししてください。" +
-                     "その際、「えっと」や「あの」などのフィラーは除去し、句読点を付けてください。" +
-                     "整形後のテキストのみを出力し、解説や挨拶は含めないでください。" +
-                     "音声に人間の発話が含まれない場合は、いかなる推測も行わず `@@@` のみを出力してください。";
-
         var content = new Content
         {
             Parts = [new Part { InlineData = new Blob { Data = audioBytes, MimeType = mimeType } }],
@@ -57,14 +52,15 @@ public class GeminiService
 
         var config = new GenerateContentConfig
         {
-            SystemInstruction = new Content
+            AudioTranscriptionConfig = new AudioTranscriptionConfig
             {
-                Parts = [new Part { Text = prompt }],
+                Mode = AudioTranscriptionConfigMode.Smart,
+                LanguageCodes = ["ja-JP"], // 日本語の音声を想定
             },
         };
 
         var response = await _client.Models.GenerateContentAsync(
-            "gemini-4-hydrogen",
+            "gemini-3.5-transcribe",
             content,
             config
         );
