@@ -57,7 +57,6 @@ public class GeminiService
 
         var config = new GenerateContentConfig
         {
-            ThinkingConfig = new ThinkingConfig { ThinkingLevel = ThinkingLevel.Minimal },
             SystemInstruction = new Content
             {
                 Parts = [new Part { Text = prompt }],
