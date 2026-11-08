@@ -64,7 +64,7 @@ public class GeminiService
         };
 
         var response = await _client.Models.GenerateContentAsync(
-            "gemini-flash-latest",
+            "gemini-3.8-flash",
             content,
             config
         );
