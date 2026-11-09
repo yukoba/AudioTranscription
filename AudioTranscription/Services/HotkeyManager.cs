@@ -66,7 +66,7 @@ public class AppHotkeyManager : IDisposable
         _audioRecorder.Dispose();
     }
 
-    private void OnToggleRecording(object? sender, HotkeyEventArgs e)
+    private async void OnToggleRecording(object? sender, HotkeyEventArgs e)
     {
         e.Handled = true; // イベントを消費する
 
@@ -75,13 +75,25 @@ public class AppHotkeyManager : IDisposable
             return;
 
         if (!_isRecording)
-            StartRecordingUI();
+            await StartRecordingUI();
         else
             StopRecordingUI();
     }
 
-    private void StartRecordingUI()
+    private async Task StartRecordingUI()
     {
+        if (ImeChecker.IsImeOpen())
+        {
+            if (_overlay == null) _overlay = new OverlayWindow();
+            _isProcessing = true; // メッセージ表示中はホットキーを無視する
+            _overlay.SetStatus("IMEをオフにしてください");
+            _overlay.Show();
+            await Task.Delay(3000);
+            _overlay.Hide();
+            _isProcessing = false;
+            return;
+        }
+
         _isRecording = true;
 
         if (_overlay == null) _overlay = new OverlayWindow();
