@@ -64,7 +64,7 @@ public class GeminiService
         };
 
         var response = await _client.Models.GenerateContentAsync(
-            "gemini-3.8-flash",
+            "gemini-4-hydrogen",
             content,
             config
         );
